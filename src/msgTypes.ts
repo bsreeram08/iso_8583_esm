@@ -161,6 +161,7 @@ const message_types: Version = {
     '1801': 'Network Management request repeat',
     '1810': 'Network Management request response',
     '1820': 'Network Management advice',
+    '1830': 'Network Management advice Response',
   },
   2003: {
     '2100': 'Authorization request',
