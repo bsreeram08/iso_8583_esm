@@ -10,170 +10,170 @@ const defaultUnsafeToLogField = {
     ContentType: 'ans',
     Label: 'Reserved for private use',
     LenType: 'llllllvar',
-    MaxLen: 999999
+    MaxLen: 999999,
   },
   '127.1': {
     ContentType: 'b',
     Label: 'Bitmap',
     LenType: 'fixed',
-    MaxLen: 16
+    MaxLen: 16,
   },
   '127.2': {
     ContentType: 'n',
     Label: 'Switch Key',
     LenType: 'llvar',
     MaxLen: 32,
-    MinLen: 12
+    MinLen: 12,
   },
   '127.3': {
     ContentType: 'ans',
     Label: 'Routing Information',
     LenType: 'fixed',
-    MaxLen: 48
+    MaxLen: 48,
   },
   '127.4': {
     ContentType: 'ans',
     Label: 'POS Data',
     LenType: 'fixed',
-    MaxLen: 22
+    MaxLen: 22,
   },
   '127.5': {
     ContentType: 'ans',
     Label: 'Service Station Data',
     LenType: 'fixed',
-    MaxLen: 73
+    MaxLen: 73,
   },
   '127.6': {
     ContentType: 'n',
     Label: 'Authorization Profile',
     LenType: 'fixed',
-    MaxLen: 2
+    MaxLen: 2,
   },
   '127.7': {
     ContentType: 'ans',
     Label: 'Check Data',
     LenType: 'llvar',
     MaxLen: 50,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.8': {
     ContentType: 'ans',
     Label: 'Retention Data',
     LenType: 'lllvar',
     MaxLen: 999,
-    MinLen: 100
+    MinLen: 100,
   },
   '127.9': {
     ContentType: 'ans',
     Label: 'Additional Node Data',
     LenType: 'lllvar',
     MaxLen: 255,
-    MinLen: 100
+    MinLen: 100,
   },
   '127.10': {
     ContentType: 'n',
     Label: 'CVV2',
     LenType: 'fixed',
-    MaxLen: 3
+    MaxLen: 3,
   },
   '127.11': {
     ContentType: 'ans',
     Label: 'Original Key',
     LenType: 'llvar',
     MaxLen: 32,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.12': {
     ContentType: 'ans',
     Label: 'Terminal Owner',
     LenType: 'llvar',
     MaxLen: 25,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.13': {
     ContentType: 'ans',
     Label: 'POS Geographic Data',
     LenType: 'fixed',
-    MaxLen: 17
+    MaxLen: 17,
   },
   '127.14': {
     ContentType: 'ans',
     Label: 'Sponsor Bank',
     LenType: 'fixed',
-    MaxLen: 8
+    MaxLen: 8,
   },
   '127.15': {
     ContentType: 'ans',
     Label: 'Address Verification Data',
     LenType: 'llvar',
     MaxLen: 29,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.16': {
     ContentType: 'ans',
     Label: 'Address Verification Result',
     LenType: 'fixed',
-    MaxLen: 1
+    MaxLen: 1,
   },
   '127.17': {
     ContentType: 'ans',
     Label: 'Cardholder Information',
     LenType: 'llvar',
     MaxLen: 50,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.18': {
     ContentType: 'ans',
     Label: 'Validation data',
     LenType: 'llvar',
     MaxLen: 50,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.19': {
     ContentType: 'ans',
     Label: 'Bank details',
     LenType: 'fixed',
-    MaxLen: 31
+    MaxLen: 31,
   },
   '127.20': {
     ContentType: 'n',
     Label: 'Originator / Authorizer date settlement',
     LenType: 'fixed',
-    MaxLen: 8
+    MaxLen: 8,
   },
   '127.21': {
     ContentType: 'ans',
     Label: 'Record identification',
     LenType: 'llvar',
     MaxLen: 12,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.22': {
     ContentType: 'ans',
     Label: 'Structured Data',
     LenType: 'lllllvar',
     MaxLen: 99999,
-    MinLen: 10000
+    MinLen: 10000,
   },
   '127.23': {
     ContentType: 'ans',
     Label: 'Payee name and address',
     LenType: 'fixed',
-    MaxLen: 253
+    MaxLen: 253,
   },
   '127.24': {
     ContentType: 'ans',
     Label: 'Payer account',
     LenType: 'llvar',
     MaxLen: 28,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.25': {
     ContentType: 'ans',
     Label: 'Integrated circuit card (ICC) Data',
     LenType: 'llllvar',
     MaxLen: 8000,
-    MinLen: 1000
+    MinLen: 1000,
   },
   '127.25.1': {
     ContentType: 'b',
@@ -198,7 +198,7 @@ const defaultUnsafeToLogField = {
     Label: 'Application Identifier',
     LenType: 'llvar',
     MaxLen: 32,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.25.5': {
     ContentType: 'ans',
@@ -379,7 +379,7 @@ const defaultUnsafeToLogField = {
     Label: 'Original Node',
     LenType: 'llvar',
     MaxLen: 12,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.27': {
     ContentType: 'ans',
@@ -391,59 +391,59 @@ const defaultUnsafeToLogField = {
     ContentType: 'n',
     Label: 'American Express Card Identifier (CID)',
     LenType: 'fixed',
-    MaxLen: 4
+    MaxLen: 4,
   },
   '127.29': {
     ContentType: 'b',
     Label: '3D Secure Data',
     LenType: 'fixed',
-    MaxLen: 40
+    MaxLen: 40,
   },
   '127.30': {
     ContentType: 'ans',
     Label: '3D Secure Result',
     LenType: 'fixed',
-    MaxLen: 1
+    MaxLen: 1,
   },
   '127.31': {
     ContentType: 'ans',
     Label: 'Issuer Network ID',
     LenType: 'llvar',
     MaxLen: 11,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.32': {
     ContentType: 'b',
     Label: 'UCAF data',
     LenType: 'llvar',
     MaxLen: 33,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.33': {
     ContentType: 'n',
     Label: 'Extended Transaction Type',
     LenType: 'fixed',
-    MaxLen: 4
+    MaxLen: 4,
   },
   '127.34': {
     ContentType: 'n',
     Label: 'Account Type Qualifiers',
     LenType: 'fixed',
-    MaxLen: 2
+    MaxLen: 2,
   },
   '127.35': {
     ContentType: 'ans',
     Label: 'Acquirer Network ID',
     LenType: 'llvar',
     MaxLen: 11,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.36': {
     ContentType: 'ans',
     Label: 'Customer ID',
     LenType: 'llvar',
     MaxLen: 25,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.37': {
     ContentType: 'an',
@@ -456,34 +456,31 @@ const defaultUnsafeToLogField = {
     Label: 'Additional POS Data Code',
     LenType: 'llvar',
     MaxLen: 99,
-    MinLen: 10
+    MinLen: 10,
   },
   '127.39': {
     ContentType: 'an',
     Label: 'Original Response Code',
     LenType: 'fixed',
-    MaxLen: 2
+    MaxLen: 2,
   },
   '128': {
     ContentType: 'b',
     Label: 'Message authentication code',
     LenType: 'fixed',
-    MaxLen: 8
-  }
+    MaxLen: 8,
+  },
 };
 
-// @ts-ignore
-export default function (config, data, panMaskFormat) {
-  // @ts-ignore
+export function safeToLog(config, data, panMaskFormat) {
   const obj = data || this.Msg;
   const toSafeConfig = config || defaultUnsafeToLogField;
   const msg = Object.assign(obj);
   for (const field in toSafeConfig) {
     if (field === '2') {
-      // @ts-ignore
       const maskedPan = this.maskPan(msg[field], panMaskFormat || '**4', '*');
       msg[field] = maskedPan;
     } else delete msg[field];
   }
   return msg;
-};
+}

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   live: {
     port: 9320,
     httpPort: 8090,

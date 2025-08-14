@@ -1,15 +1,13 @@
-
-
-const express = require('express');
-const bodyParser = require('body-parser');
-const xmlparser = require('express-xml-bodyparser');
-const config = require('../config/env');
-const pos_route = require('./routes/pos');
+import express from 'express';
+import bodyParser from 'body-parser';
+import xmlparser from 'express-xml-bodyparser';
+import config from '../config/env.js';
+import pos_route from './routes/pos.js';
 
 const configs = config[process.env.NODE_ENV || 'development'];
 
 const app = express();
-app.post(('/'), (req, res) => {
+app.post('/', (req, res) => {
   res.send({ status: 'ok' });
 });
 
@@ -24,4 +22,4 @@ app.listen(configs.httpPort, () => {
   });
 });
 
-module.exports = app;
+export default app;

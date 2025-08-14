@@ -2,20 +2,21 @@
   "name": "tcpserver",
   "version": "0.0.0",
   "description": "",
-  "main": "server.js",
+  "type": "module",
+  "main": "server/index.js",
   "scripts": {
-    "t": "node server",
-    "w": "node web",
-    "start": "concurrently \"node server\" \"node web\""
+    "t": "node server/index.js",
+    "w": "node web/index.js",
+    "start": "concurrently \"node server/index.js\" \"node web/index.js\""
   },
-  "author": "Danstan Otieno Onyango",
+  "author": "Sreeram",
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "date-fns": "^1.29.0",
     "express": "^4.16.4",
     "express-xml-bodyparser": "^0.3.0",
-    "iso_8583": "^3.0.0-beta-6"
+    "iso8583_esm": "file:../lib"
   },
   "devDependencies": {
     "concurrently": "^6.2.0"

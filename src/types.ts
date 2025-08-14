@@ -1,4 +1,4 @@
-import { CustomFormatT } from './t';
+import type { CustomFormatT } from './t';
 import { DefaultError } from './errors';
 /**
  * Module for validating field data types.
@@ -6,10 +6,9 @@ import { DefaultError } from './errors';
  */
 
 function isQuoted(s: string) {
-  if(!s) return false;
+  if (!s) return false;
   return (s[0] === "'" && s[s.length - 1] === "'") || (s[0] === '"' && s[s.length - 1] === '"');
 }
-
 
 /**
   * @method
@@ -33,11 +32,11 @@ function isQuoted(s: string) {
     MinLen: 1
   }, "446288148638637X", 3) -> { error: 'while processing field 3 : provided data is not of type n'}
   */
-export default function checkDataType(format: CustomFormatT, _data: string | null, field: string | number) {
+export function checkDataType(format: CustomFormatT, _data: string | null, field: string | number) {
   let data = _data;
   // @ts-ignore
-    if (isQuoted(_data)) data = _data?.slice(1, -1);
-  if(!data) return new DefaultError(`field ${field} is empty`);
+  if (isQuoted(_data)) data = _data?.slice(1, -1);
+  if (!data) return new DefaultError(`field ${field} is empty`);
   const regex = {
     a: /[A-Z]/i,
     n: /[0-9]/i,
@@ -73,9 +72,13 @@ export default function checkDataType(format: CustomFormatT, _data: string | nul
       if (data[0].match(/[c,d]/i)) {
         for (let i = 2; i < data.length; i++) {
           if (data[i].length === 1 && data[i].match(regex[type])) state = true;
-          else return new DefaultError('while processing field ' + field + ": provided data is not of type '" + type + "'");
+          else
+            return new DefaultError(
+              'while processing field ' + field + ": provided data is not of type '" + type + "'",
+            );
         }
-      } else return new DefaultError('while processing field ' + field + ": provided data is not of type '" + type + "'");
+      } else
+        return new DefaultError('while processing field ' + field + ": provided data is not of type '" + type + "'");
 
       return state;
     }

@@ -1,13 +1,12 @@
-// @ts-nocheck
-import T from '../tools';
-import formats from '../formats';
+import { Tools as T } from '../tools';
+import { Formats as formats } from '../formats';
 
 function unpackKeyValueStringField(self, slice_127, isoJSON) {
   const length = parseInt(slice_127.slice(0, 6).toString(), 10);
   slice_127 = slice_127.slice(6, slice_127.length);
   if (!self.embededProperties.exclude127Bitmap) {
     slice_127 = slice_127.slice(8, slice_127.length);
-  } 
+  }
 
   const dataString = slice_127.slice(0, length).toString();
   slice_127 = slice_127.slice(length, slice_127.length);
@@ -19,14 +18,12 @@ function unpackKeyValueStringField(self, slice_127, isoJSON) {
       remSlice: slice_127,
     };
   }
-  // @ts-ignore
   data.reduce((_ignored, s) => {
     const kv = s?.split('=');
 
     const k = kv[0];
 
     const v = kv.slice(1, kv.length).join('=');
-    // @ts-ignore
     isoJSON[`127.${k}`] = v;
   }, {});
   return {
@@ -39,32 +36,27 @@ function unpackKeyValueStringField(self, slice_127, isoJSON) {
  * @method unpack_127_1_63
  * @memberof module:Message-UnPackage
  */
-export default function (slice_127, isoJSON) {
-   if (this.embededProperties.field_127_25_key_value_string) {
-     return unpackKeyValueStringField(this, slice_127, isoJSON);
-   }
+export function unpack_127_1_63(slice_127, isoJSON) {
+  if (this.embededProperties.field_127_25_key_value_string) {
+    return unpackKeyValueStringField(this, slice_127, isoJSON);
+  }
   slice_127 = slice_127.slice(6, slice_127.length);
   //const bitmap = T.getHex(slice_127.slice(0, 8).toString('hex')).split('').map(Number);
-  let bitmap = "";
-  if(this.formats['127.1'] != undefined)
-  { 
-    if (this.formats['127.1'].ContentType === 'an')
-    {
-      bitmap = T.getHex(slice_127.slice(0, 16).toString('ascii'))
-      .split('')
-      .map(Number);
+  let bitmap = '';
+  if (this.formats['127.1'] != undefined) {
+    if (this.formats['127.1'].ContentType === 'an') {
+      // @ts-ignore
+      bitmap = T.getHex(slice_127.slice(0, 16).toString('ascii')).split('').map(Number);
       slice_127 = slice_127.slice(16, slice_127.length);
     }
-  }
-  else
-  {
-    bitmap = T.getHex(slice_127.slice(0, 8).toString('hex'))
-    .split('')
-    .map(Number);
+  } else {
+    // @ts-ignore
+    bitmap = T.getHex(slice_127.slice(0, 8).toString('hex')).split('').map(Number);
     slice_127 = slice_127.slice(8, slice_127.length);
   }
- 
+
   for (let i = 0; i < 40; i++) {
+    // @ts-ignore
     if (bitmap[i] === 1) {
       const subField = '127.' + (i + 1);
       const this_format = this.formats[subField] || formats[subField];
@@ -92,7 +84,7 @@ export default function (slice_127, isoJSON) {
           if (!this_format.MaxLen)
             return T.toErrorObject(['max length not implemented for ', this_format.LenType, subField]);
           if (this.Msg[subField] && this.Msg[subField].length > this_format.MaxLen)
-            return T.toInvalidLengthErrorObject(subField, this.Msg[field].length);
+            return T.toInvalidLengthErrorObject(subField, this.Msg[subField].length);
           if (thisLen === 0) {
             throw T.toErrorObject(['field ', subField, ' format not implemented']);
           } else {
@@ -110,4 +102,4 @@ export default function (slice_127, isoJSON) {
     json: isoJSON,
     remSlice: slice_127,
   };
-};
+}

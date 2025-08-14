@@ -1,13 +1,12 @@
-// @ts-nocheck
-import T from '../tools';
-import formats from '../formats';
+import { Tools as T } from '../tools';
+import { Formats as formats } from '../formats';
 
 /**
  * Unpack fields 127.25.0-127 from an ISO 8583 encoded string into a JSON
  * @method unpack_127_25_1_63
  * @memberof module:Message-UnPackage
  */
-export default function (slice_127_25, isoJSON) {
+export function unpack_127_25_1_63(slice_127_25, isoJSON) {
   if (slice_127_25.byteLength > 10 && T.isXmlEncoded(slice_127_25.slice(4, slice_127_25.length).toString())) {
     isoJSON['127.25'] = slice_127_25.slice(4, slice_127_25.length).toString();
     return {
@@ -39,10 +38,9 @@ export default function (slice_127_25, isoJSON) {
             }
           } else {
             const thisLen = T.getLenType(this_format.LenType);
-            if (!this_format.MaxLen)
-              return T.toErrorObject(['max length not implemented for ', this_format.LenType], subField);
+            if (!this_format.MaxLen) return T.toErrorObject(['max length not implemented for ', this_format.LenType]);
             if (this.Msg[subField] && this.Msg[subField].length > this_format.MaxLen)
-              return T.toInvalidLengthErrorObject(subField, this.Msg[field].length);
+              return T.toInvalidLengthErrorObject(subField, this.Msg[subField].length);
             if (thisLen === 0) {
               throw T.toErrorObject(['field ', subField, ' format not implemented']);
             } else {
@@ -63,4 +61,4 @@ export default function (slice_127_25, isoJSON) {
       remSlice: slice_127_25,
     };
   }
-};
+}

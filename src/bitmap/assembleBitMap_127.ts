@@ -1,12 +1,11 @@
-// @ts-nocheck
-import T from '../tools';
+import { Tools as T } from '../tools';
 
 /**
  * Assembles the Bitmap of field 127.0-63 for the ISO 8583 message in the Main class Instance.
  * @function assembleBitmap_127
  * @memberof module:Bitmap-Assemble
  */
-function assembleBitmap_127() {
+export function assembleBitmap_127() {
   const extend = this.rebuildExtensions();
   const state = this.checkMTI();
   if (state && !extend.error) {
@@ -23,4 +22,3 @@ function assembleBitmap_127() {
     } else return T.toErrorObject('bitmap error, iso message type undefined or invalid');
   } else return T.toErrorObject('bitmap error, iso message type undefined or invalid');
 }
-export default assembleBitmap_127;

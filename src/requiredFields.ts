@@ -1,6 +1,6 @@
 import { DefaultError } from './errors';
-import { ISO8583JSONMessageType } from './ISO8583Base';
-import { RequiredFieldSchemaT } from './t';
+import type { ISO8583JSONMessageType } from './ISO8583Base';
+import type { RequiredFieldSchemaT } from './t';
 import * as helpers from './helpers';
 
 const defaultRequiredFieldsSchema: any = [
@@ -24,20 +24,23 @@ const defaultRequiredFieldsSchema: any = [
 ];
 
 // Breaking change: No dynmaic file import. Pass the config
-export default function (data: ISO8583JSONMessageType, requiredFieldsConfig: RequiredFieldSchemaT | null = defaultRequiredFieldsSchema) {
+export function requiredFields(
+  data: ISO8583JSONMessageType,
+  requiredFieldsConfig: RequiredFieldSchemaT | null = defaultRequiredFieldsSchema,
+) {
   const conf = requiredFieldsConfig || defaultRequiredFieldsSchema;
-  
-  const message_code = data[0];
-  const processing_code = data[3];
+
+  const message_code = `${data[0]}`;
+  const processing_code = `${data[3]}`;
   const key = 'required_fields';
 
   const required_fields = helpers.findRequiredFields(conf, key, processing_code, message_code);
   const iso_fields = helpers.extractBits(data);
   const missing_fields = helpers.matchValues(required_fields, iso_fields);
-  
+
   if (missing_fields.length > 0) {
     return new DefaultError('Processing code: ' + processing_code + ' - Missing required fields: ' + missing_fields);
   }
 
   return true;
-};
+}

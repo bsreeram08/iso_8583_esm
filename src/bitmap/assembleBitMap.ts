@@ -1,13 +1,12 @@
-// @ts-nocheck
-import * as Types from '../t';
-import T from '../tools';
+import { Err, BitMap } from '../t';
+import { Tools as T } from '../tools';
 
 /**
  * Assembles the Bitmap of fields 0-127 for the ISO 8583 message in the Main class Instance.
  * @method assembleBitmap
  * @memberof module:Bitmap-Assemble
  */
-function assembleBitmap(): Types.BitMap | Types.Error {
+export function assembleBitmap(): BitMap | Err {
   if (this.checkMTI()) {
     const upper = this.hasSpecialFields ? 193 : 128;
     let _map = new Uint8Array(upper);
@@ -28,7 +27,6 @@ function assembleBitmap(): Types.BitMap | Types.Error {
       }
     }
     this.bitmaps = _map;
-    return _map;
+    return _map as never;
   } else return T.toErrorObject('bitmap error, iso message type undefined or invalid');
 }
-export default assembleBitmap;

@@ -1,4 +1,4 @@
-import { RequiredFieldSchemaT } from './../t';
+import type { RequiredFieldSchemaT } from './../t';
 
 export const requiredFieldsSchema: any = [
   {

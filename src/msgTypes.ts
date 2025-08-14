@@ -1,12 +1,10 @@
 interface MessageType {
-  [key: string]: string
+  [key: string]: string;
 }
 
 interface Version {
   [key: number]: MessageType;
 }
-
-
 
 const private_common_types: MessageType = {
   '9900': 'Private use, reserved by ISO, request, Acquirer',
@@ -219,8 +217,8 @@ const message_types: Version = {
   },
 };
 
-export default function (mti: string | null) {
-  if(!mti) return false
+export function msgTypes(mti: string | null) {
+  if (!mti) return false;
   const msg_type1987 = message_types['1987'][mti];
   const msg_type1993 = message_types['1993'][mti];
   const msg_type2003 = message_types['2003'][mti];
@@ -229,4 +227,4 @@ export default function (mti: string | null) {
   const _mti = msg_type2003 || msg_type1993 || msg_type1987 || msg_typePrivate;
 
   return !!_mti;
-};
+}

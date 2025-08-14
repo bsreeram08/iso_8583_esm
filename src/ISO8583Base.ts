@@ -1,32 +1,32 @@
 import { DefaultError } from './errors';
 import * as Types from './t';
-import toSafeLog from './safeToLog';
-import * as SpT from './specialFields/tools'
-import maskPan from './maskPan';
+import { safeToLog as toSafeLog } from './safeToLog';
+import * as SpT from './specialFields/tools';
+import { maskPan } from './maskPan';
 
 /**
  * Set of methods for unpacking TCP message encoded in ISO 8583 format. Members of Main Class
  * @module Message-UnPackage
  */
-import  unpack_0_127 from './unpack/unpack_0_127'
-import unpack_127_1_63 from './unpack/unpack_127_1_63';
-import unpack_127_25_1_63 from './unpack/unpack_127_25_1_63';
+import { unpack_0_127 } from './unpack/unpack_0_127';
+import { unpack_127_1_63 } from './unpack/unpack_127_1_63';
+import { unpack_127_25_1_63 } from './unpack/unpack_127_25_1_63';
 
 /**
  * Set of methods for assembling the bitmaps for message field 0-127, 127.0-63, 127.25.0-39. Members of Main Class
  * @module Bitmap-Assemble
  */
-import assembleBitMap from './bitmap/assembleBitMap';
-import assembleBitMap_127 from './bitmap/assembleBitMap_127';
-import assembleBitMap_127_25 from './bitmap/assembleBitMap_127_25';
+import { assembleBitmap as assembleBitMap } from './bitmap/assembleBitMap';
+import { assembleBitmap_127 as assembleBitMap_127 } from './bitmap/assembleBitMap_127';
+import { assembleBitmap_127_25 as assembleBitMap_127_25 } from './bitmap/assembleBitMap_127_25';
 
 /**
  * Set of methods for packing JSON message into a Buffer message. Members of Main Class
  * @module Message-Package
  */
-import assemble0_127_Fields from './pack/assemble0_127_Fields';
-import assemble127_extensions from './pack/assemble127_extensions';
-import assemble127_25_extensions from './pack/assemble127_25_extensions';
+import { assemble0_127_Fields } from './pack/assemble0_127_Fields';
+import { assemble0_127_extensions as assemble127_extensions } from './pack/assemble127_extensions';
+import { assemble127_25_extensions } from './pack/assemble127_25_extensions';
 
 /**
  * Main ISO 8583 Class used to create a new message object with formating methods.
@@ -42,14 +42,14 @@ export interface ISO8583JSONMessageType {
 
 export interface EmbededProperties {
   field_127_25_key_value_string?: boolean;
-  exclude127Bitmap?: boolean ;
+  exclude127Bitmap?: boolean;
 }
 
 export type ISO8583RawMessageType = Buffer;
 
 export type ISO8583MessageType = ISO8583JSONMessageType | ISO8583RawMessageType;
 
-export default class ISO8583Base {
+export class ISO8583Base {
   MsgType: string | null = null;
   BufferMsg: Types.ISO8583RawT | null = null;
   Msg: ISO8583JSONMessageType | null = {};
@@ -66,7 +66,7 @@ export default class ISO8583Base {
 
   excessBuffer: Buffer | null = null;
 
-  embededProperties: EmbededProperties = { field_127_25_key_value_string : false, exclude127Bitmap : false };
+  embededProperties: EmbededProperties = { field_127_25_key_value_string: false, exclude127Bitmap: false };
 
   maskPan: (pan: string, format: string, masker?: string | undefined) => string | { error: string };
   toSafeLog: (config: Types.KeyValueStringT, data: Types.KeyValueStringT, panMaskFormat: string) => void;
@@ -99,7 +99,6 @@ export default class ISO8583Base {
     if (Buffer.isBuffer(message)) {
       this.BufferMsg = message;
     } else if (message) {
-      // @ts-ignore
       this.MsgType = message[0];
       this.Msg = message;
 

@@ -1,7 +1,6 @@
-// @ts-nocheck
-import T from '../tools';
-import formats from '../formats'
-import types from'../types';
+import { Tools as T } from '../tools';
+import { Formats as formats } from '../formats';
+import { checkDataType } from '../types';
 import * as SpT from '../specialFields/tools';
 
 /**
@@ -9,14 +8,20 @@ import * as SpT from '../specialFields/tools';
  * @method assemble0_127_Fields
  * @memberof module:Message-Package
  */
-function assemble0_127_Fields() {
+export function assemble0_127_Fields() {
   const bitMapCheck = this.getBitMapHex();
   const state = this.assembleBitMap();
   const validDate = T.validateFields(this);
   const specialValidate = SpT.validateSpecialFields(this.Msg, this.formats);
   const mti = this.getMti();
   // expects array of 0s & 1s and data-json object
-  if (!state.error && !validDate.error && !specialValidate.error && !bitMapCheck.error && !mti.error) {
+  if (
+    !state.error &&
+    validDate.valid === false &&
+    specialValidate.valid === false &&
+    !bitMapCheck.error &&
+    !mti.error
+  ) {
     const mtiBuffer = Buffer.alloc(4, mti);
 
     let buff;
@@ -29,8 +34,9 @@ function assemble0_127_Fields() {
     for (let i = 1; i < this.bitmaps.length; i++) {
       const field = i + 1;
       if (this.bitmaps[i] === 1) {
+        const this_format = this.formats[field] || formats[field];
         // present
-        if (field === 127) {
+        if (field === 127 && this_format?.hasExtentions !== false) {
           const _127_exetnsions = this.assemble127_extensions();
           if (!_127_exetnsions.error) {
             if (_127_exetnsions.byteLength > 12) {
@@ -46,9 +52,9 @@ function assemble0_127_Fields() {
         if (!this.Msg[field]) {
           return T.toErrorObject(['Field ', field, ' in bitmap but not in json']);
         }
-        const this_format = this.formats[field] || formats[field];
-        const state = types(this_format, this.Msg[field], field);
-        if (state.error) {
+
+        const state = checkDataType(this_format, this.Msg[field], field);
+        if (typeof state === 'object' && state.error) {
           return state;
         }
         if (this_format) {
@@ -84,7 +90,10 @@ function assemble0_127_Fields() {
               for (let i = 0; i < padCount; i++) {
                 lenIndicator = 0 + lenIndicator;
               }
-              const thisBuff = Buffer.alloc(this.Msg[field].length + lenIndicator.length, lenIndicator + this.Msg[field]);
+              const thisBuff = Buffer.alloc(
+                this.Msg[field].length + lenIndicator.length,
+                lenIndicator + this.Msg[field],
+              );
               buff = Buffer.concat([buff, thisBuff]);
             }
           }
@@ -99,5 +108,3 @@ function assemble0_127_Fields() {
     return state;
   }
 }
-
-export default assemble0_127_Fields;

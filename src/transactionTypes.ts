@@ -1,5 +1,5 @@
-import { KeyValueStringT } from './t';
-let transType: KeyValueStringT = {
+import type { KeyValueStringT } from './t';
+export const transType: KeyValueStringT = {
   '00': 'Goods and services',
   '01': 'Cash withdrawal',
   '02': 'Adjustment',
@@ -40,7 +40,5 @@ let transType: KeyValueStringT = {
   '90': 'Place hold on card',
   '91': 'General admin (see field 127.33 Extended Transaction Type)',
   '92': 'Change PIN',
-  '93': 'Dead-end general admin (see field 127.33 Extended Transaction Type)'
+  '93': 'Dead-end general admin (see field 127.33 Extended Transaction Type)',
 };
-
-export default transType;

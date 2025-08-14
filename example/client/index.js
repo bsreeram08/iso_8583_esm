@@ -1,13 +1,13 @@
 /**
  * Created by danstan on 8/1/17.
  */
-const net = require('net');
+import net from 'node:net';
 
 const client = new net.Socket();
-const Iso_8583 = require('../../src/ISO8583');
+import { ISO8583 } from 'iso8583_esm';
 
-const helpers = require('../tools/helpers');
-const config = require('../config/env');
+import helpers from '../tools/helpers.js';
+import config from '../config/env.js';
 
 const host = config[process.env.NODE_ENV || 'development'];
 
@@ -21,14 +21,16 @@ function makeConnection() {
 }
 function connectEventHandler() {
   console.info('***** connected ******');
-  console.info({
-    port: client.remotePort,
-    host: client.remoteAddress,
-  }, 'connected to postillion postbridge');
+  console.info(
+    {
+      port: client.remotePort,
+      host: client.remoteAddress,
+    },
+    'connected to postillion postbridge',
+  );
   retrying = false;
 }
-function dataEventHandler() {
-}
+function dataEventHandler() {}
 function endEventHandler() {
   // console.log('end');
 }
@@ -37,7 +39,7 @@ function timeoutEventHandler() {
 }
 function drainEventHandler(data) {
   const thisMti = data.slice(2, 6).toString();
-  const iso = new Iso_8583().getIsoJSON(data);
+  const iso = new ISO8583().getIsoJSON(data);
   switch (thisMti) {
     case '0800':
       const new_0800_0810 = {
@@ -46,7 +48,7 @@ function drainEventHandler(data) {
         70: iso['70'],
       };
       helpers.attachDiTimeStamps(new_0800_0810);
-      return client.write(new Iso_8583(new_0800_0810).getBufferMessage(), () => {
+      return client.write(new ISO8583(new_0800_0810).getBufferMessage(), () => {
         console.info('Message write finish');
       });
     default:
@@ -100,4 +102,4 @@ client.on('close', closeEventHandler);
 console.info('***** connecting ******');
 makeConnection();
 
-module.exports = client;
+export default client;

@@ -1,13 +1,12 @@
-// @ts-nocheck
-import T from '../tools';
-import formats from '../formats';
+import { Tools as T } from '../tools';
+import { Formats as formats } from '../formats';
 
 /**
  * Assemble fields 127.25.0-63 into ISO 8583 encoded string
  * @method assemble0_127_25_extensions
  * @memberof module:Message-Package
  */
-export default function () {
+export function assemble127_25_extensions() {
   const bitampHext = this.Msg['127.25.1'] || this.getBitMapHex_127_ext_25();
   this.Msg['127.25.1'] = bitampHext;
   let buff = this.buildBitmapBuffer(bitampHext, 'ascii');
@@ -70,7 +69,7 @@ export default function () {
             buff = Buffer.concat([buff, thisBuff]);
           }
         }
-      } 
+      }
     }
   }
 
@@ -81,4 +80,4 @@ export default function () {
 
   const lenBuff = Buffer.alloc(actualLen.length, actualLen);
   return Buffer.concat([lenBuff, buff]);
-};
+}

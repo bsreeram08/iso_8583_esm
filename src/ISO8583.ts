@@ -1,19 +1,18 @@
-import { KeyValueStringT } from './t';
-// @ts-ignore
+import type { KeyValueStringT } from './t';
 import jxon from 'jxon';
 import * as Types from './t';
-import ISO8583Base from './ISO8583Base';
-import formats from './formats';
-import requiredFields from './requiredFields';
-import requiredEcho from './requiredEcho';
-import types from './types';
-import T from './tools';
-import takeStaticMeta from './unpack/take_static_metadata';
-import msgTypes from './msgTypes';
+import { ISO8583Base } from './ISO8583Base';
+import { Formats as formats } from './formats';
+import { requiredFields } from './requiredFields';
+import { requiredEcho } from './requiredEcho';
+import { checkDataType as types } from './types';
+import { Tools as T } from './tools';
+import { takeStaticMetadata as takeStaticMeta } from './unpack/take_static_metadata';
+import { msgTypes } from './msgTypes';
 import * as H from './helpers';
 
 import * as SpT from './specialFields/tools';
-import addStaticMetaData from './pack/addStaticMetaData';
+import { addStaticMetaData } from './pack/addStaticMetaData';
 
 /**
  * Main ISO 8583 Class used to create a new message object with formating methods.
@@ -22,7 +21,7 @@ import addStaticMetaData from './pack/addStaticMetaData';
  * @param {object} requiredFieldsSchema - Required field Schema definitions for different message types.
  * @example new Main(SomeMessage,customFormats, requiredFieldConfig) -> Main..
  */
-export default class ISO8583 extends ISO8583Base {
+export class ISO8583 extends ISO8583Base {
   dataString: string = '';
   constructor(message?: Types.ISOMessageT, customFormats?: Types.CustomFormatsT, requiredFieldsSchema?: any) {
     super(message, customFormats, requiredFieldsSchema);
@@ -110,7 +109,7 @@ export default class ISO8583 extends ISO8583Base {
   getLenBuffer(len: number) {
     const buf1 = T.getTCPHeaderBuffer(Math.floor(len / 256));
     const buf2 = T.getTCPHeaderBuffer(Math.floor(len % 256));
-    return Buffer.concat([buf1, buf2]);
+    return Buffer.concat([buf1, buf2] as never);
   }
 
   getTType() {
@@ -352,7 +351,7 @@ export default class ISO8583 extends ISO8583Base {
       const k = kv[0];
 
       const v = kv.slice(1, kv.length).join('=');
-      // @ts-ignore
+
       this.Msg[`${field}.${k}`] = v;
     }, {});
     return true;
@@ -486,7 +485,7 @@ export default class ISO8583 extends ISO8583Base {
             map = '';
           }
         }
-        return this.bitmaps.length, maps.join('');
+        return (this.bitmaps.length, maps.join(''));
       } else return T.toErrorObject('bitmap error, expecting 128 length unit array');
     }
   }
@@ -599,7 +598,7 @@ export default class ISO8583 extends ISO8583Base {
     } else {
       const len_0_127_1 = T.getTCPHeaderBuffer(Math.floor(_0_127_Buffer.byteLength / 256));
       const len_0_127_2 = T.getTCPHeaderBuffer(Math.floor(_0_127_Buffer.byteLength % 256));
-      return Buffer.concat([len_0_127_1, len_0_127_2, staticMetadataBuf, _0_127_Buffer]);
+      return Buffer.concat([len_0_127_1, len_0_127_2, staticMetadataBuf, _0_127_Buffer] as never);
       // return Buffer.concat([len_0_127_1, len_0_127_2, _0_127_Buffer]);
     }
   }
@@ -620,7 +619,7 @@ export default class ISO8583 extends ISO8583Base {
     } else {
       const len_0_127_1 = T.getTCPHeaderBuffer(Math.floor(Number(_0_127_Buffer.byteLength) / 256));
       const len_0_127_2 = T.getTCPHeaderBuffer(Math.floor(Number(_0_127_Buffer.byteLength) % 256));
-      return Buffer.concat([len_0_127_1, len_0_127_2, staticMetadataBuf, _0_127_Buffer]);
+      return Buffer.concat([len_0_127_1, len_0_127_2, staticMetadataBuf, _0_127_Buffer] as never);
       // return Buffer.concat([len_0_127_1, len_0_127_2, _0_127_Buffer]);
     }
   }
@@ -708,7 +707,7 @@ export default class ISO8583 extends ISO8583Base {
 
   getJsonFromXml(xmString: string) {
     if (xmString) {
-      const obj = jxon.stringToJs(xmString);
+      const obj: Record<string, any> = jxon.stringToJs(xmString);
       if (obj.Iso8583PostXml) {
         const iso = obj.Iso8583PostXml;
         const res: Types.KeyValueStringT = {};

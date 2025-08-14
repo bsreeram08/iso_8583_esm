@@ -1,10 +1,8 @@
-// @ts-nocheck
-
 import { DefaultError } from './../errors';
-import T from '../tools';
-import formats from '../formats';
-import types from '../types';
-import ISO8583 from '../ISO8583';
+import { Tools as T } from '../tools';
+import { Formats as formats } from '../formats';
+import { checkDataType as types } from '../types';
+import { ISO8583 } from '../ISO8583';
 
 function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
   const mtiCheck = self.checkMTI();
@@ -14,15 +12,16 @@ function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
   if (mtiCheck && validate && state) {
     const bitmaps_127 = self.assembleBitMap_127();
     const bmpsHex = self.getBitMapHex_127_ext();
+    // @ts-ignore
     let buff = Buffer.alloc(8, bmpsHex, 'hex');
-    if(self.formats['127.1'] != undefined)
-    {
-      if (self.formats['127.1'].ContentType === 'an')
-      {
-        buff = Buffer.alloc(16, bmpsHex, 'ascii')
+    if (self.formats['127.1'] != undefined) {
+      if (self.formats['127.1'].ContentType === 'an') {
+        // @ts-ignore
+        buff = Buffer.alloc(16, bmpsHex, 'ascii');
       }
     }
     const fieldkv = [];
+    // @ts-ignore
     for (let i = 0; i < bitmaps_127.length; i++) {
       const field = '127.' + (Number(i) + 1);
       const subField = Number(i) + 1;
@@ -33,6 +32,7 @@ function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
         const this_format = self.formats[field] || formats[field];
         if (this_format) {
           const state = types(this_format, self.Msg[field], field);
+          // @ts-ignore
           if (state.error) {
             return T.toErrorObject('Message is invalid');
           }
@@ -79,10 +79,11 @@ function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
 
     if (self.embededProperties.exclude127Bitmap) {
       buff = Buffer.alloc(0);
-    } 
+    }
 
     const dataString = fieldkv.join('; ');
     const dataLength = dataString.length;
+    // @ts-ignore
     buff = Buffer.concat([buff, Buffer.alloc(dataLength, dataString)]);
 
     const padCount = T.getLenType(formats['127'].LenType);
@@ -91,6 +92,7 @@ function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
     for (let i = 0; i < x; i++) actualLen = '0' + actualLen;
 
     const lenBuff = Buffer.alloc(actualLen.length, actualLen);
+    // @ts-ignore
     return Buffer.concat([lenBuff, buff]);
   } else return T.toErrorObject('Invalid Message in 127 extensions');
 }
@@ -101,7 +103,7 @@ function assembleKeyValueString(self: ISO8583): DefaultError | Buffer {
  * @memberof module:Message-Package
  */
 
-export default function () {
+export function assemble0_127_extensions() {
   if (this.embededProperties.field_127_25_key_value_string) {
     const buff = assembleKeyValueString(this);
     return buff;
@@ -135,6 +137,7 @@ export default function () {
         const this_format = this.formats[field] || formats[field];
         if (this_format) {
           const state = types(this_format, this.Msg[field], field);
+          // @ts-ignore
           if (state.error) {
             return T.toErrorObject('Message is invalid');
           }
@@ -143,6 +146,7 @@ export default function () {
               if (this_format.MaxLen === this.Msg[field].length) {
                 const size = this_format.MaxLen / 2;
                 const thisBuff = Buffer.alloc(size, this.Msg[field], 'hex');
+                // @ts-ignore
                 buff = Buffer.concat([buff, thisBuff]);
               } else {
                 return T.toInvalidLengthErrorObject(field, this.Msg[field].length);
@@ -150,6 +154,7 @@ export default function () {
             } else {
               if (this_format.MaxLen === this.Msg[field].length) {
                 const thisBuff = Buffer.alloc(this.Msg[field].length, this.Msg[field]);
+                // @ts-ignore
                 buff = Buffer.concat([buff, thisBuff]);
               } else {
                 return T.toInvalidLengthErrorObject(field, this.Msg[field].length);
@@ -174,6 +179,7 @@ export default function () {
                 this.Msg[field].length + lenIndicator.length,
                 lenIndicator + this.Msg[field],
               );
+              // @ts-ignore
               buff = Buffer.concat([buff, thisBuff]);
             }
           }
@@ -189,6 +195,7 @@ export default function () {
     const bitmapBuff = buff.slice(0, 8);
     const lenBuff = Buffer.alloc(actualLen.length, actualLen);
     const dataBuff = buff.slice(8, buff.byteLength);
+    // @ts-ignore
     return Buffer.concat([lenBuff, bitmapBuff, dataBuff]);
   } else return T.toErrorObject('Invalid Message in 127 extensions');
 }

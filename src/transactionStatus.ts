@@ -1,5 +1,5 @@
-import { KeyValueStringT } from './t';
-let transStatus: KeyValueStringT = {
+import type { KeyValueStringT } from './t';
+export const transStatus: KeyValueStringT = {
   '00': 'Approved or completed successfully',
   '01': 'Refer to card issuer',
   '02': 'Refer to card issuer, special condition',
@@ -98,18 +98,16 @@ let transStatus: KeyValueStringT = {
   '97': 'Reserved for future Postilion use',
   '98': 'Exceeds cash limit',
   '99': 'Reserved for future Postilion use',
-  'A1': 'ATC not incremented',
-  'A2': 'ATC limit exceeded',
-  'A3': 'ATC configuration error',
-  'A4': 'CVR check failure',
-  'A5': 'CVR configuration error',
-  'A6': 'TVR check failure',
-  'A7': 'TVR configuration error',
-  'C': 'Zero Unacceptable PIN',
-  'C1': 'PIN Change failed',
-  'C2': 'PIN Unblock failed',
-  'D1': 'MAC Error',
-  'E1': 'Prepay error'
+  A1: 'ATC not incremented',
+  A2: 'ATC limit exceeded',
+  A3: 'ATC configuration error',
+  A4: 'CVR check failure',
+  A5: 'CVR configuration error',
+  A6: 'TVR check failure',
+  A7: 'TVR configuration error',
+  C: 'Zero Unacceptable PIN',
+  C1: 'PIN Change failed',
+  C2: 'PIN Unblock failed',
+  D1: 'MAC Error',
+  E1: 'Prepay error',
 };
-
-export default transStatus;

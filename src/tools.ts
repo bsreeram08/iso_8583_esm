@@ -1,19 +1,19 @@
 import { DefaultError } from './errors';
-import ISO8583Base from './ISO8583Base';
-import formats from './formats';
+import { ISO8583Base } from './ISO8583Base';
+import { Formats as formats } from './formats';
 import * as Types from './t';
-import checkTypes from './types'
+import { checkDataType as checkTypes } from './types';
 
-import accTypes  from './accountTypes';
-import transTypes   from './transactionTypes';
-import transStatus   from './transactionStatus';
+import { accntTypes as accTypes } from './accountTypes';
+import { transType as transTypes } from './transactionTypes';
+import { transStatus } from './transactionStatus';
 
 /**
  * Handy Utils for transforming data
  * @module Tools
  */
 
-export default {
+export const Tools = {
   /**
    * Convert TCP message string length to a buffer, should be a number that fits in one byte.
    * @method getTCPHeaderBuffer
@@ -115,7 +115,14 @@ export default {
     }
   },
 
-  validateFields: (self: ISO8583Base) => {
+  validateFields: (
+    self: ISO8583Base,
+  ):
+    | { valid: true }
+    | {
+        valid: false;
+        error: DefaultError;
+      } => {
     const obj = self.Msg;
 
     const customFormats = self.formats;
@@ -128,11 +135,16 @@ export default {
         if (this_format && checkTypes(this_format, obj[field], field)) {
           state = true;
         } else {
-          return new Error('field ' + field + ' error');
+          return {
+            valid: false,
+            error: new DefaultError('field ' + field + ' error'),
+          };
         }
       }
     }
-    return state;
+    return {
+      valid: true,
+    };
   },
 
   /**
@@ -220,8 +232,8 @@ export default {
 
   isXmlEncoded: (s: string) => {
     if (!s) return false;
-    if(s.startsWith('<') && s.endsWith('>')) return true
-    if(s.startsWith("'<") && s.endsWith(">'")) return true
-    return false
+    if (s.startsWith('<') && s.endsWith('>')) return true;
+    if (s.startsWith("'<") && s.endsWith(">'")) return true;
+    return false;
   },
 };

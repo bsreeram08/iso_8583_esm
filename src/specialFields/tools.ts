@@ -1,20 +1,31 @@
 import { DefaultError } from './../errors';
-import { ISO8583JSONMessageType } from './../ISO8583Base';
+import type { ISO8583JSONMessageType } from './../ISO8583Base';
 import * as Types from './../t';
-import formats from './formats';
+import { formats } from './formats';
 
-export const validateSpecialFields = (msg: ISO8583JSONMessageType, customFormats: Types.CustomFormatsT) => {
+export const validateSpecialFields = (
+  msg: ISO8583JSONMessageType,
+  customFormats: Types.CustomFormatsT,
+):
+  | { valid: true }
+  | {
+      valid: false;
+      error: DefaultError;
+    } => {
   const fields = Object.keys(msg);
   let i = 0;
   for (i; i < fields.length; i++) {
     // @ts-ignore
     // @ts-ignore
     if (formats[fields[i]] && !customFormats[fields[i]]) {
-      return new DefaultError(`Special field ${fields[i]} has no custom formats`);
+      return {
+        error: new DefaultError(`Special field ${fields[i]} has no custom formats`),
+        valid: false,
+      };
     }
   }
   if (i === fields.length) {
-    return true;
+    return { valid: true };
   }
 };
 export const detectSpecial = (msg: ISO8583JSONMessageType) => {
@@ -31,5 +42,5 @@ export const detectSpecial = (msg: ISO8583JSONMessageType) => {
     return state;
   }
 
-  return state
+  return state;
 };

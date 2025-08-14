@@ -2,11 +2,10 @@
  * Created by danstan on 8/1/17.
  */
 
-
-const net = require('net');
-const Iso_8583 = require('iso_8583');
-const helpers = require('../tools/helpers');
-const config = require('../config/env');
+import net from 'node:net';
+import { ISO8583 } from 'iso8583_esm';
+import helpers from '../tools/helpers.js';
+import config from '../config/env.js';
 
 const server = net.createServer();
 
@@ -17,11 +16,14 @@ const HOST = '0.0.0.0';
 server.on('connection', (socket) => {
   // New Client Connection
   socket.setTimeout(20000);
-  console.info({
-    family: socket.remoteFamily,
-    ip: socket.remoteAddress,
-    port: socket.remotePort,
-  }, '****** new client connection ******');
+  console.info(
+    {
+      family: socket.remoteFamily,
+      ip: socket.remoteAddress,
+      port: socket.remotePort,
+    },
+    '****** new client connection ******',
+  );
 
   const new_0800_0810_Initial = {
     0: '0800',
@@ -32,7 +34,7 @@ server.on('connection', (socket) => {
     70: '001',
   };
   helpers.attachDiTimeStamps(new_0800_0810_Initial);
-  socket.write(new Iso_8583(new_0800_0810_Initial).getBufferMessage(), 'utf8', () => {
+  socket.write(new ISO8583(new_0800_0810_Initial).getBufferMessage(), 'utf8', () => {
     console.info('Message write finish');
   });
 
@@ -41,7 +43,7 @@ server.on('connection', (socket) => {
     // this is the data that came to postilion
     // postilion responds with a bitmap format
     const thisMti = data.slice(2, 6).toString();
-    const iso = new Iso_8583().getIsoJSON(data);
+    const iso = new ISO8583().getIsoJSON(data);
     console.info(iso, '****** Decoded Raw Data ******');
     switch (thisMti) {
       // auth request message
@@ -53,7 +55,7 @@ server.on('connection', (socket) => {
             70: '301',
           };
           helpers.attachDiTimeStamps(new_0800_0810);
-          socket.write(new Iso_8583(new_0800_0810).getBufferMessage(), 'utf8', () => {
+          socket.write(new ISO8583(new_0800_0810).getBufferMessage(), 'utf8', () => {
             console.info('Message write finish');
           });
         } else {
@@ -68,15 +70,17 @@ server.on('connection', (socket) => {
         iso[0] = `${iso[0].slice(0, 2)}10`;
         new_mess[39] = '00';
         helpers.attachDiTimeStamps(new_mess);
-        socket.write(new Iso_8583(new_mess).getBufferMessage());
+        socket.write(new ISO8583(new_mess).getBufferMessage());
     }
   });
   socket.on('error', (err) => {
     console.info({ error: `error in connection ${err}` });
-    socket.destroy(JSON.stringify({
-      error: 'connection error',
-      code: 500,
-    }));
+    socket.destroy(
+      JSON.stringify({
+        error: 'connection error',
+        code: 500,
+      }),
+    );
     socket.end();
   });
 
@@ -90,7 +94,7 @@ server.on('connection', (socket) => {
       70: '001',
     };
     helpers.attachDiTimeStamps(new_0800_0810);
-    socket.write(new Iso_8583(new_0800_0810).getBufferMessage(), 'utf8', () => {
+    socket.write(new ISO8583(new_0800_0810).getBufferMessage(), 'utf8', () => {
       console.info('Message write finish');
     });
   });
@@ -102,13 +106,19 @@ server.on('connection', (socket) => {
   // listen for the close event
   socket.on('close', (err) => {
     if (!err) {
-      console.info({
-        ok: 'success',
-      }, 'connection was closed');
+      console.info(
+        {
+          ok: 'success',
+        },
+        'connection was closed',
+      );
     } else {
-      console.info({
-        error: err,
-      }, 'connection was closed');
+      console.info(
+        {
+          error: err,
+        },
+        'connection was closed',
+      );
     }
   });
 });
@@ -144,4 +154,4 @@ server.on('error', (err) => {
   }
 });
 
-module.exports = server;
+export default server;

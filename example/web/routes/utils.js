@@ -1,26 +1,26 @@
-const EventEmitter = require('events');
-const Iso_8583 = require('../../../src/ISO8583');
-const client = require('../../client');
+import { EventEmitter } from 'node:events';
+import { ISO8583 } from 'iso8583_esm';
+import client from '../../client/index.js';
 
-class OnDataEmitter extends EventEmitter { }
+class OnDataEmitter extends EventEmitter {}
 const onThisData = new OnDataEmitter();
 
-module.exports = {
-  onThisData,
-  sender: message => new Promise((resolve) => {
-    const mess = new Iso_8583(message);
+export { onThisData };
+
+export const sender = (message) =>
+  new Promise((resolve) => {
+    const mess = new ISO8583(message);
     const buffer = mess.getBufferMessage();
     const tras_unique = `${message['42']}_${message['11']}_${message['37']}`;
 
     // write to socket
     client.write(buffer);
 
-    // Create event listener to litsten for response message event.
+    // Create event listener to listen for response message event.
     onThisData.on(tras_unique, (isoRes) => {
       resolve(isoRes);
       onThisData.removeAllListeners(tras_unique);
     });
   })
-    .then(success => success)
-    .catch(e => e),
-};
+    .then((success) => success)
+    .catch((e) => e);

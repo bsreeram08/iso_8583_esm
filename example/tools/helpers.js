@@ -1,4 +1,4 @@
-const formatd = require('date-fns/format');
+import formatd from 'date-fns/format';
 
 const util = {};
 
@@ -6,7 +6,7 @@ util.getPostillionLength = (buf) => {
   const div = buf[0];
   const rem = buf[1];
 
-  return (256 * div) + rem;
+  return 256 * div + rem;
 };
 
 util.extractPostillionData = (sent) => {
@@ -26,7 +26,7 @@ util.attachPostillionLength = (_data) => {
 
   // make sure _data is a buffer, if it's a string convert
   if (!Buffer.isBuffer(_data)) {
-    if (typeof (_data) === 'string') {
+    if (typeof _data === 'string') {
       data = Buffer.from(_data);
     }
   } else {
@@ -50,4 +50,4 @@ util.attachDiTimeStamps = (obj) => {
   return obj;
 };
 
-module.exports = util;
+export default util;

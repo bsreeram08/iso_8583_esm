@@ -1,4 +1,4 @@
-import { KeyValueStringT } from "./t";
+import type { KeyValueStringT } from './t';
 
 interface MaskingFormats {
   [key: string]: KeyValueStringT;
@@ -23,7 +23,7 @@ const maskingFormats: MaskingFormats = {
   },
 };
 
-export default function (pan: string, format: string, masker?: string) {
+export function maskPan(pan: string, format: string, masker?: string) {
   let p = pan;
   const m = masker || '*';
   if (!maskingFormats[format]) return { error: 'unknown pan masking format' };
@@ -36,14 +36,14 @@ export default function (pan: string, format: string, masker?: string) {
     p = p.slice(0, pre) + fill + p.slice(p.length - post, p.length);
   } else if (!pre && !mid && post) {
     fill = m.repeat(p.length - post);
-    p = fill + p.slice(p.length - post , p.length);
+    p = fill + p.slice(p.length - post, p.length);
   } else if (pre && !mid && !post) {
     fill = m.repeat(p.length - pre);
     p = p.slice(0, pre) + fill;
-  } else if (!pre && mid && !post ) {
+  } else if (!pre && mid && !post) {
     const lu = Math.floor((p.length - mid) / 2);
     fill = m.repeat(lu);
-    p = fill + p.slice(lu , p.length - lu) + fill;
-  } else return { error: 'wrong pan configurations passed'};
+    p = fill + p.slice(lu, p.length - lu) + fill;
+  } else return { error: 'wrong pan configurations passed' };
   return p;
-};
+}

@@ -1,23 +1,20 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "es2019",
-            "es2020.bigint",
-            "es2020.string",
-            "es2020.symbol.wellknown"
-        ],
-        "module": "commonjs",
-        "target": "es2019",
-        "declaration": true,
-        "outDir": "./lib",
-        "strict": true,
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules",
-        "__tests__"
-    ],
-    "esModuleInterop": true
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "noEmit": false,
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": false,
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "__tests__"],
+  "esModuleInterop": true
 }
