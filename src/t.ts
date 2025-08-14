@@ -121,7 +121,8 @@ export class Main {
     }
     this.formats = customFormats || {};
 
-    this.hasSpecialFields = SpT.validateSpecialFields(this.Msg, this.formats).valid;
+    // @ts-ignore
+    this.hasSpecialFields = SpT.validateSpecialFields(this.Msg, this.formats);
 
     this.bitmaps = null;
     this.fields = {};
