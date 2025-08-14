@@ -115,14 +115,7 @@ export const Tools = {
     }
   },
 
-  validateFields: (
-    self: ISO8583Base,
-  ):
-    | { valid: true }
-    | {
-        valid: false;
-        error: DefaultError;
-      } => {
+  validateFields: (self: ISO8583Base) => {
     const obj = self.Msg;
 
     const customFormats = self.formats;
@@ -135,16 +128,11 @@ export const Tools = {
         if (this_format && checkTypes(this_format, obj[field], field)) {
           state = true;
         } else {
-          return {
-            valid: false,
-            error: new DefaultError('field ' + field + ' error'),
-          };
+          return new Error('field ' + field + ' error');
         }
       }
     }
-    return {
-      valid: true,
-    };
+    return state;
   },
 
   /**

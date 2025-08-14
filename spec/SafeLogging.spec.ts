@@ -1,5 +1,4 @@
-
-import Main from '../src/ISO8583';
+import { ISO8583 as Main } from '../src/ISO8583';
 
 test('should remove unsafe to log fields', () => {
   let data = {
@@ -31,7 +30,7 @@ test('should remove unsafe to log fields', () => {
 
   let isopack = new Main(data, {}, {});
   expect(isopack.validateMessage()).toStrictEqual(true);
-  
+
   const safeToLog = isopack.toSafeLog({}, {}, '4*4');
   expect(safeToLog).toStrictEqual(safeToLog);
 });

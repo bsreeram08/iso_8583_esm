@@ -15,13 +15,8 @@ export function assemble0_127_Fields() {
   const specialValidate = SpT.validateSpecialFields(this.Msg, this.formats);
   const mti = this.getMti();
   // expects array of 0s & 1s and data-json object
-  if (
-    !state.error &&
-    validDate.valid === false &&
-    specialValidate.valid === false &&
-    !bitMapCheck.error &&
-    !mti.error
-  ) {
+  // @ts-ignore
+  if (!state.error && !validDate.error && !specialValidate.error && !bitMapCheck.error && !mti.error) {
     const mtiBuffer = Buffer.alloc(4, mti);
 
     let buff;
